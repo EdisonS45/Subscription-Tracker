@@ -64,19 +64,19 @@ const subscriptionSchema = new mongoose.Schema({
     }
 })
 
-subscriptionSchema.pre('save',function(next){
+subscriptionSchema.pre('save', function (next) {
     const periodFrequency = {
-        daily:1,
-        weekly:7,
-        monthly:30,
-        yearly:365
+        daily: 1,
+        weekly: 7,
+        monthly: 30,
+        yearly: 365
     }
-    if(!this.renewalDate){
+    if (!this.renewalDate) {
         this.renewalDate = new Date(this.startDate);
-        this.renewalDate.setDate(this.renewalDate.getDate()+periodFrequency[this.frequency])
+        this.renewalDate.setDate(this.renewalDate.getDate() + periodFrequency[this.frequency])
     }
-    if(this.renewalDate<new Date()){
-        this.status='expired'
+    if (this.renewalDate < new Date()) {
+        this.status = 'expired'
     }
     next()
 })
